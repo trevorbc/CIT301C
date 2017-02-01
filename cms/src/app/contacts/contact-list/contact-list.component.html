@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-xs-12">
     <ul class="list-group">
-      <app-contact-item [contact]="contact" (click)="onSelected(contact)" ></app-contact-item>
+      <app-contact-item *ngFor= "let contact of contacts" [contact]="contact" (click)="onSelected(contact)" ></app-contact-item>
     </ul>
   </div>
 
