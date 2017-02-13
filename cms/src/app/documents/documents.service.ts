@@ -6,10 +6,12 @@ import { MOCKDOCUMENTS } from "./MOCKDOCUMENTS"
 export class DocumentsService {
   documents: Document[]= [];
 
-  constructor() { }
+  constructor() {
+    this.documents = MOCKDOCUMENTS;
+  }
 
   getDocuments() {
-    this.documents = MOCKDOCUMENTS;
+    return this.documents;
   }
   getDocument(idx:number) {
     return this.documents[idx];
