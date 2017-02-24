@@ -2,11 +2,9 @@
   <div class="col-md-5 col-md-offset-1">
 <app-contact-list (contactSelected)="selectedContact = $event"></app-contact-list>
   </div>
-  <div *ngIf="selectedContact !=null" class="col-md-4">
-    <app-contacts-detail *ngIf="selectedContact.group === null" [selectedContact]="selectedContact"></app-contacts-detail>
-    <app-contacts-group *ngIf="selectedContact.group !== null" [selectedContact]="selectedContact"></app-contacts-group>
+  <div class="col-md-4 ">
+    <router-outlet></router-outlet>
   </div>
-
 </div>
 
 

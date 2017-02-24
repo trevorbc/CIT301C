@@ -10,7 +10,7 @@ export class ContactsService {
   }
 
     getContact(id: number){
-
+      return this.contacts[id];
     }
     getContacts() {
       // individual contacts
