@@ -1,3 +1,35 @@
-<p>
-  message-new works!
-</p>
+<div class="col-xs-12">
+
+  <form id="message-add" (ngSubmit)="onSubmit(f.value)" #f="ngForm">
+    <div class="row">
+
+      <div class="col-sm-12 form-group">
+        <label for="message">Message</label>
+        <input
+          type="text"
+          id="message"
+          required
+          class="form-control"
+          size="120"
+          max="255"
+          name="message"
+          [ngModel]="message?.text"
+          #message="ngModel">
+        <div class="alert alert-danger" *ngIf="message.dirty && !message.valid"> You must enter a message </div>
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-success" type="submit" [disabled]="!f.valid">Send</button>
+        <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+
+  </form>
+
+
+</div>
+

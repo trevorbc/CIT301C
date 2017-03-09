@@ -16,6 +16,12 @@ export class DocumentsService {
   getDocument(idx:number) {
     return this.documents[idx];
   }
+  addDocument(document: Document) {
+    return this.documents.push(document);
+  }
+  updateDocument(oldDoc: Document, newDoc: Document) {
+    this.documents[this.documents.indexOf(oldDoc)] = newDoc;
+  }
   deleteDocument(document: Document) {
     this.documents.splice(this.documents.indexOf(document), 1)
   }

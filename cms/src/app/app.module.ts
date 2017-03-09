@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -25,6 +25,8 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
 import {WindRefService} from "./wind-ref.service";
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
 import {ContactsService} from "./contacts/contacts.service";
+import { ContactGroupItemComponent } from './contacts/contact-group-item/contact-group-item.component';
+import {DndModule} from "ng2-dnd";
 
 @NgModule({
   declarations: [
@@ -44,13 +46,17 @@ import {ContactsService} from "./contacts/contacts.service";
     MessageNewComponent,
     DocumentViewComponent,
     DocumentEditComponent,
-    ContactEditComponent
+    ContactEditComponent,
+    MessageNewComponent,
+    ContactGroupItemComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    ReactiveFormsModule,
+    DndModule.forRoot()
   ],
   providers: [MessagesService, DocumentsService, WindRefService, ContactsService],
   bootstrap: [AppComponent]

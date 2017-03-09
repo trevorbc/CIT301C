@@ -28,7 +28,7 @@
     <div class="row" *ngIf="contactGroup && contactGroup.length > 0">
       <label for="groupContacts" style="margin-left: 1rem;">Group contacts:</label>
       <div class="col-xs-12" id="groupContacts">
-        <app-contact-item *ngFor="let contact of contactGroup" [contact]="contact"></app-contact-item>
+        <app-contact-group-item *ngFor="let contact of contactGroup" [contact]="contact"></app-contact-group-item>
       </div>
     </div>
 

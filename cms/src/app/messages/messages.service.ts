@@ -14,9 +14,12 @@ export class MessagesService {
     return this.messages;
   }
 
-
   getMessage(idx: number) {
     return this.messages[idx];
+  }
+
+  addMessage(message: Message) {
+    this.messages.push(message);
   }
 
 }
