@@ -27,6 +27,7 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
 import {ContactsService} from "./contacts/contacts.service";
 import { ContactGroupItemComponent } from './contacts/contact-group-item/contact-group-item.component';
 import {DndModule} from "ng2-dnd";
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {DndModule} from "ng2-dnd";
     ContactEditComponent,
     MessageNewComponent,
     ContactGroupItemComponent,
+    ContactsFilterPipe,
   ],
   imports: [
     BrowserModule,

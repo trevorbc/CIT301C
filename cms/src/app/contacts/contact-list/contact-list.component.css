@@ -1,0 +1,13 @@
+.pad-left-right{
+  padding-left:1rem;
+  padding-right:2rem;
+}
+input[type=text] {
+  width: 16em;
+  box-sizing: border-box;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+.search {
+  width: 253px;
+}

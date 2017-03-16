@@ -10,7 +10,7 @@ import {ContactsService} from "../contacts.service";
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
-
+  private term: string;
   @Output() contactSelected = new EventEmitter<Contact>();
   @Input() contact: Contact = null;
   contacts: Contact[] = [];
@@ -20,13 +20,16 @@ export class ContactListComponent implements OnInit {
 
   ngOnInit() {
     this.contacts = this.contactsService.getContacts();
+    this.contactsService.getContactsEmitter.subscribe(
+      (contacts: Contact[]) => this.contacts = contacts
+    );
   }
 
   onSelected(contact: Contact) {
     this.contactSelected.emit(contact);
   }
+  onKeyPress(value: string) {
+    this.term = value;
+  }
 
 }
-
-
-

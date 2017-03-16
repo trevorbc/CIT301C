@@ -32,10 +32,11 @@ export class ContactEditComponent implements OnInit, OnDestroy {
         if (params.hasOwnProperty('idx')) {
           this.contact = this.contactsService.getContact(params['idx']);
           this.editMode = true;
-        }
-        if ((this.contact.group != null) && (this.contact.group.length > 0)){
-          this.hasGroup = true;
-          this.groupContacts = this.contact.group;
+
+          if ((this.contact.group != null) && (this.contact.group.length > 0)) {
+            this.hasGroup = true;
+            this.groupContacts = this.contact.group.slice();
+          }
         }
       }
     );
@@ -98,42 +99,5 @@ export class ContactEditComponent implements OnInit, OnDestroy {
       }
       this.router.navigate(['contacts']);
   }
-  // getContactById(id: string): Contact {
-  //   return this.contact.find((contact: Contact) => contact.id === id);
-  // }
 
-  // addContact(contact: Contact) {
-  //   if (!contact)
-  //     return;
-  //   this.contacts.push(contact);
-  //   this.contacts = this.contacts.sort(this.compareNames);
-  //   this.storeContacts();
-  // }
-  //
-  // updateContact(oldContact: Contact, newContact: Contact) {
-  //   if (!oldContact || !newContact) {
-  //     return;
-  //   }
-  //   this.contacts[this.contacts.indexOf(oldContact)] = newContact;
-  //   this.contacts = this.contacts.sort(this.compareNames);
-  //   this.storeContacts();
-  // }
-  // onCancel() {
-  //   this.router.navigate(['contacts']);
-  // }
-  //
-  // deleteContact(contact: Contact) {
-  //   if (!contact) {
-  //     return;
-  //   }
-  //
-  //   const pos = this.contacts.indexOf(contact);
-  //   if (pos < 0) {
-  //     return;
-  //   }
-  //
-  //   this.contacts.splice(pos, 1);
-  //   this.contacts = this.contacts.sort(this.compareNames);
-  //   this.storeContacts();
-  // }
 }
