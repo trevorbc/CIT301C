@@ -41,10 +41,10 @@ export class DocumentEditComponent implements OnInit {
                                     value.documentUrl, null);
     if (this.editMode) {
       newDocument.id = this.oldDocument.id;
-      this.documentservice.updateDocument(this.oldDocument, newDocument);
+      this.documentservice.updateDocument(this.oldDocument, newDocument).subscribe();;
     }
     else {
-      this.documentservice.addDocument(newDocument);
+      this.documentservice.addDocument(newDocument).subscribe();
     }
     this.router.navigate(['documents']);
 }
@@ -55,3 +55,15 @@ export class DocumentEditComponent implements OnInit {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

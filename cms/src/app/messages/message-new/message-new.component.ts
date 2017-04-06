@@ -22,7 +22,7 @@ export class MessageNewComponent implements OnInit {
 
   onSubmit(value){
     const newMessage = new Message("", this.sender.name, "", value.message);
-    this.messagesService.addMessage(newMessage);
+    this.messagesService.addMessage(newMessage).subscribe();
     this.router.navigate(['messages']);
   }
 

@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from '@angular/core';
 import { Document} from "./document";
 import {Http, Response, Headers} from "@angular/http";
 import 'rxjs/RX';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class DocumentsService {
@@ -10,54 +11,50 @@ export class DocumentsService {
   getDocumentsEventEmitter = new EventEmitter<Document[]>();
 
   constructor(private http: Http) {
-    this.initDocuments();
     this.currentDocumentId = '1';
   }
 
   getDocuments() {
-    return this.documents;
+    return this.http.get('http://localhost:3000/documents')
+      .map((response: Response) => {
+        const documents = response.json().obj;
+        let transformedDocuments: Document[] = [];
+        for (let document of documents) {
+          transformedDocuments.push(new Document(document.id, document.name, document.description, document.url, document.children));
+        }
+        this.documents = transformedDocuments;
+        return transformedDocuments;
+      })
+      .catch((error: Response) => Observable.throw(error.json()));
   }
   getDocument(idx:number) {
     return this.documents[idx];
   }
   addDocument(document: Document) {
-    if (document == null)
-      return;
-    this.documents.push(document);
-    this.storeDocuments();
+    const body = JSON.stringify(document);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/documents', body, {headers: headers})
+      .map((response: Response) => {
+        const result = response.json();
+        const document = new Document(result.id, result.name, result.description, result.url, result.children);
+        this.documents.push(document);
+        return document;
+      })
+      .catch((error: Response) => Observable.throw(error.json()));
 
   }
   updateDocument(oldDoc: Document, newDoc: Document) {
-    this.documents[this.documents.indexOf(oldDoc)] = newDoc;
-    this.storeDocuments();
+    const body = JSON.stringify(newDoc);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.patch('http://localhost:3000/documents/' + newDoc.id, body, {headers: headers})
+      .map((response: Response) => response.json())
+      .catch((error: Response) => Observable.throw(error.json()));
   }
   deleteDocument(document: Document) {
-    if (!document) {
-      return;
-    }
-
-    const pos = this.documents.indexOf(document);
-    if (pos < 0) {
-      return;
-    }
-    this.documents.splice(pos, 1);
-    this.storeDocuments();
-  }
-  initDocuments() {
-    return this.http.get('https://trevorcms-29656.firebaseio.com/documents.json')
+    this.documents.splice(this.documents.indexOf(document), 1);
+    return this.http.delete('http://localhost:3000/documents/' + document.id)
       .map((response: Response) => response.json())
-      .subscribe(
-        (data: Document[]) => {
-          this.documents = data;
-          this.getDocumentsEventEmitter.emit(this.documents);
-        }
-      );
+      .catch((error: Response) => Observable.throw(error.json()));
   }
-  storeDocuments() {
-    const body = JSON.stringify(this.documents);
-    const headers = new Headers({
-      'Content-Type': 'application/json'
-    });
-    return this.http.put('https://trevorcms-29656.firebaseio.com/documents.json', body, {headers: headers}).toPromise();
-  }
+
 }

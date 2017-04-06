@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from '@angular/core';
 import { Message } from "./message";
 import {Response, Http, Headers} from "@angular/http";
 import 'rxjs/Rx';
+import {Observable} from "rxjs";
 
 
 @Injectable()
@@ -11,12 +12,21 @@ export class MessagesService {
   getMessagesEventEmitter = new EventEmitter<Message[]>();
 
   constructor(private http: Http) {
-    this.initMessages();
     this.currentMessageId = '1';
   }
 
   getMessages() {
-    return this.messages;
+    return this.http.get('http://localhost:3000/messages')
+      .map((response: Response) => {
+        const messages = response.json().obj;
+        let transformedMessages: Message[] = [];
+        for (let message of messages) {
+          transformedMessages.push(new Message(message.idx, message.sender, message.subject, message.text));
+        }
+        this.messages = transformedMessages;
+        return transformedMessages;
+      })
+      .catch((error: Response) => Observable.throw(error.json()));
   }
 
   getMessage(idx: number) {
@@ -24,27 +34,17 @@ export class MessagesService {
   }
 
   addMessage(message: Message) {
-    if (message == null)
-      return;
-    this.messages.push(message);
-    this.storeMessages();
+    const body = JSON.stringify(message);
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:3000/messages', body, {headers: headers})
+      .map((response: Response) => {
+        const result = response.json();
+        const message = new Message(result.idx, result.sender, result.subject, result.text);
+        this.messages.push(message);
+        return message;
+      })
+      .catch((error: Response) => Observable.throw(error.json()));
   }
 
-  initMessages() {
-    return this.http.get('https://trevorcms-29656.firebaseio.com/messages.json')
-      .map((response: Response) => response.json())
-      .subscribe(
-        (data: Message[]) => {
-          this.messages = data;
-          this.getMessagesEventEmitter.emit(this.messages);
-        }
-      );
-  }
- storeMessages() {
-  const body = JSON.stringify(this.messages);
-  const headers = new Headers({
-    'Content-Type': 'application/json'
-  });
-  return this.http.put('https://trevorcms-29656.firebaseio.com/messages.json', body, {headers: headers}).toPromise();
-}
+
 }
