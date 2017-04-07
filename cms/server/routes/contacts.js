@@ -47,7 +47,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.patch('/:id', function (req, res, next) {
-  Contact.findById(req.params.id, function (err, contact) {
+  Contact.findOne({'id': req.params.id}, function (err, contact) {
     if (err) {
       return res.status(500).json({
         title: 'An error occurred',
@@ -77,7 +77,7 @@ router.patch('/:id', function (req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  Contact.findById(req.params.id, function (err, contact) {
+  Contact.findOne({'id': req.params.id}, function (err, contact) {
     if (err) {
       return res.status(500).json({
         title: 'An error occurred',
